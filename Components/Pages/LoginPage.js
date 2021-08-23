@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
 
 export default function LoginPage({userSetter , logInAndSignUpToggler}) {
 
     const logoImageURL = 'https://i.ibb.co/TW97Jry/1055661.png'
+    const googleImageURL = 'https://i.ibb.co/3WnH6M8/281764.png'
 
     const [inputUserName, setInputUserName] = useState('');
     const [inputPassword, setInputPassword] = useState('');
@@ -24,36 +25,43 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
 
     }
 
+    const logInUsingGoogle = () => {
+
+    }
+
     return (
-        <View style={styles.loginPageContainer}>
+        <SafeAreaView style={styles.loginPageContainer}>
             <View style={styles.tagLine}>
                 <Image
                     source={{uri: logoImageURL}}
                     style={styles.logoImage}
                 />
                 <Text style={styles.tagLineText}>Hello Post Keeper</Text>
+                <Text style={styles.instruction}>Continue your mission by logging in</Text>
             </View>
-            <View  style={styles.inputView}>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>user name</Text>
-                    <TextInput
-                        placeholder="enter your username"
-                        keyboardType="email-address"
-                        style={styles.input}
-                        onChangeText={setInputUserName}
-                        autoCompleteType={'username'}
-                    />
-                </SafeAreaView>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>password</Text>
-                    <TextInput
-                        placeholder="enter you password"
-                        keyboardType="email-address"
-                        style={styles.input}
-                        onChangeText={setInputPassword}
-                        autoCompleteType={'password'}
-                    />
-                </SafeAreaView>
+            <SafeAreaView  style={styles.inputView}>
+                <ScrollView>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>user name</Text>
+                        <TextInput
+                            placeholder="enter your username"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={setInputUserName}
+                            autoCompleteType={'username'}
+                        />
+                    </View>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>password</Text>
+                        <TextInput
+                            placeholder="enter you password"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={setInputPassword}
+                            autoCompleteType={'password'}
+                        />
+                    </View>
+                </ScrollView>
                 <TouchableOpacity style={styles.logInBtnView}>
                     <Text style={styles.logInBtn} >Login</Text>
                 </TouchableOpacity>
@@ -63,8 +71,17 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
                         <Text style={styles.signUpBtnText}>Click to become a post keeper.</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </View>
+                <View style={styles.otherLogin}>
+                    <Text>Or Login using</Text>
+                    <TouchableOpacity style={styles.signUpBtn} onPress={() => logInUsingGoogle()}>
+                        <Image
+                            source={{uri: googleImageURL}}
+                            style={styles.googleImage}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </SafeAreaView>
     );
 }
 
@@ -84,7 +101,7 @@ const styles = StyleSheet.create({
     }, 
     tagLineText : {
         fontSize : Sizes.xxlg,
-        marginBottom : Sizes.xxxlg,
+        marginBottom : Sizes.xlg,
     },
     inputView : {
         margin          : Sizes.lg,
@@ -97,12 +114,9 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize     : Sizes.lg,
-        padding : Sizes.lg,
-        outlineStyle : 'none',
     },
     label : {
         fontSize   : Sizes.xlg,
-        marginLeft : Sizes.lg,
     },
     logInBtnView : {
         backgroundColor : Color.lavender,
@@ -132,5 +146,22 @@ const styles = StyleSheet.create({
     signUpBtnText : {
         fontWeight : 'bold',
         color      : Color.orange,
-    }
+    },
+    otherLogin : {
+        justifyContent : 'center',
+        alignItems : 'center',
+        marginTop : Sizes.lg,
+        padding : Sizes.md,
+    },
+    googleImage : {
+        width     : Sizes.xxlg,
+        height    : Sizes.xxlg,
+        marginTop : Sizes.md,
+    },
+    instruction : {
+        fontWeight   : 'bold', 
+        color        : Color.lavender, 
+        fontSize     :Sizes.lg, 
+        marginBottom : Sizes.lg
+    },
 });

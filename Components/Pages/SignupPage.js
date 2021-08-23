@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
 
@@ -22,65 +22,68 @@ export default function SignupPage({logInAndSignUpToggler}) {
     }
 
     return (
-        <View style={styles.signUpPageContainer}>
+        <SafeAreaView style={styles.signUpPageContainer}>
             <View style={styles.tagLine}>
                 <Image
                     source={{uri: logoImageURL}}
                     style={styles.logoImage}
                 />
                 <Text style={styles.tagLineText}>Wanna Become A Post Keeper?</Text>
+                <Text style={styles.instruction}>Just fill these stuff and then you are ready to go!</Text>
             </View>
-            <View  style={styles.inputView}>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>first name</Text>
-                    <TextInput
-                        placeholder="enter your first name"
-                        keyboardType="default"
-                        style={styles.input}
-                        onChangeText={setInputFirstName}
-                        autoCompleteType={'name'}
-                    />
-                </SafeAreaView>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>last name</Text>
-                    <TextInput
-                        placeholder="enter your last name"
-                        keyboardType="default"
-                        style={styles.input}
-                        onChangeText={setInputLastName}
-                        autoCompleteType={'name'}
-                    />
-                </SafeAreaView>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>email</Text>
-                    <TextInput
-                        placeholder="enter your email"
-                        keyboardType="email-address"
-                        style={styles.input}
-                        onChangeText={setInputEmail}
-                        autoCompleteType={'email'}
-                    />
-                </SafeAreaView>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>password</Text>
-                    <TextInput
-                        placeholder="enter you password"
-                        keyboardType="email-address"
-                        style={styles.input}
-                        onChangeText={setInputPassword}
-                        autoCompleteType={'password'}
-                    />
-                </SafeAreaView>
-                <SafeAreaView style={styles.inputSection}>
-                    <Text style={styles.label}>re-enter password</Text>
-                    <TextInput
-                        placeholder="enter you password once more"
-                        keyboardType="email-address"
-                        style={styles.input}
-                        onChangeText={setInputRePassword}
-                        autoCompleteType={'password'}
-                    />
-                </SafeAreaView>
+            <SafeAreaView>
+                <ScrollView style={styles.scrollViews}>
+                <View style={styles.inputSection}>
+                        <Text style={styles.label}>first name</Text>
+                        <TextInput
+                            placeholder="enter your first name"
+                            keyboardType="default"
+                            style={styles.input}
+                            onChangeText={setInputFirstName}
+                            autoCompleteType={'name'}
+                        />
+                    </View>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>last name</Text>
+                        <TextInput
+                            placeholder="enter your last name"
+                            keyboardType="default"
+                            style={styles.input}
+                            onChangeText={setInputLastName}
+                            autoCompleteType={'name'}
+                        />
+                    </View>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>email</Text>
+                        <TextInput
+                            placeholder="enter your email"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={setInputEmail}
+                            autoCompleteType={'email'}
+                        />
+                    </View>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>password</Text>
+                        <TextInput
+                            placeholder="enter you password"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={setInputPassword}
+                            autoCompleteType={'password'}
+                        />
+                    </View>
+                    <View style={styles.inputSection}>
+                        <Text style={styles.label}>re-enter password</Text>
+                        <TextInput
+                            placeholder="enter you password once more"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={setInputRePassword}
+                            autoCompleteType={'password'}
+                        />
+                    </View>
+                </ScrollView>
                 <TouchableOpacity style={styles.signUpBtnView}>
                     <Text style={styles.signUpBtn}>Signup</Text>
                 </TouchableOpacity>
@@ -91,12 +94,16 @@ export default function SignupPage({logInAndSignUpToggler}) {
                         <Text style={styles.signUpBtnText}>Click to login as post keeper.</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </View>
+            </SafeAreaView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    scrollViews : {
+        height  : 400,
+        padding : Sizes.lg
+    },
     signUpPageContainer : {
         marginBottom : Sizes.XLG,
     },
@@ -114,9 +121,6 @@ const styles = StyleSheet.create({
         fontSize : Sizes.xxlg,
         marginBottom : Sizes.xxxlg,
     },
-    inputView : {
-        margin          : Sizes.lg,
-    },
     inputSection : {
         backgroundColor : Color.yellowLight,
         borderRadius    : Sizes.md,
@@ -125,12 +129,9 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize     : Sizes.lg,
-        padding : Sizes.lg,
-        outlineStyle : 'none',
     },
     label : {
         fontSize   : Sizes.xlg,
-        marginLeft : Sizes.md,
     },
     signUpBtnView : {
         backgroundColor : Color.green,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     },
     signUpBtn : {
         color      : Color.white,
-        padding    : Sizes.md,
+        padding    : Sizes.smd,
         fontSize   : Sizes.lg,
         fontWeight : 'bold',
     },
@@ -160,5 +161,11 @@ const styles = StyleSheet.create({
     signUpBtnText : {
         fontWeight : 'bold',
         color      : Color.lavender,
-    }
+    }, 
+    instruction : {
+        fontWeight   : 'bold', 
+        color        : Color.orange, 
+        fontSize     :Sizes.lg, 
+        marginBottom : Sizes.lg
+    },
 });
