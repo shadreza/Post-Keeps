@@ -1,4 +1,5 @@
 export const Sizes = {
+    xsm   : 1,
     sm    : 4,
     md    : 8,
     lg    : 16,
