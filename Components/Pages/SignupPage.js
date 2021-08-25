@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { auth } from '../../firebase';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
 
@@ -7,17 +8,41 @@ export default function SignupPage({logInAndSignUpToggler}) {
 
     const logoImageURL = 'https://i.ibb.co/TW97Jry/1055661.png'
 
-    const [inputFirstName, setInputFirstName] = useState('');
-    const [inputLastName, setInputLastName] = useState('');
+    const [inputName, setInputName] = useState('');
     const [inputPassword, setInputPassword] = useState('');
-    const [inputRePassword, setInputRePassword] = useState('');
     const [inputEmail, setInputEmail] = useState('');
 
     const handleSignUp = () => {
 
-        // firebase user insertion
+        // if(inputEmail.trim.length <= 0) {
+        //     alert("Input email perfectly")
+        //     return;
+        // } else if(inputPassword.trim.length < 6 ) {
+        //     alert('Password must be at least 6 characters')
+        //     return;
+        // }
 
-        // if successful login then go in the login page
+
+        auth.createUserWithEmailAndPassword(inputEmail, inputPassword)
+            .then((userCredential) => {
+            // Signed in 
+                const user = userCredential.user
+                user.updateProfile({
+                displayName: inputName,
+                photoURL: "https://i.ibb.co/KjtmZdH/shad-pic-removebg-preview.png"
+                }).then(() => {
+                    alert('Successfully signed up. Please log in now!')
+                    logInAndSignUpToggler[1]('login')
+                }).catch((error) => {
+                    const  errorMessage = error.message;
+                    alert(errorMessage)
+                });  
+            })
+            .catch((error) => {
+                const  errorMessage = error.message;
+                alert(errorMessage)
+                logInAndSignUpToggler[1]('login')
+            });
 
     }
 
@@ -33,23 +58,13 @@ export default function SignupPage({logInAndSignUpToggler}) {
             </View>
             <SafeAreaView>
                 <ScrollView style={styles.scrollViews}>
-                <View style={styles.inputSection}>
+                    <View style={styles.inputSection}>  
                         <Text style={styles.label}>first name</Text>
                         <TextInput
                             placeholder="enter your first name"
                             keyboardType="default"
                             style={styles.input}
-                            onChangeText={setInputFirstName}
-                            autoCompleteType={'name'}
-                        />
-                    </View>
-                    <View style={styles.inputSection}>
-                        <Text style={styles.label}>last name</Text>
-                        <TextInput
-                            placeholder="enter your last name"
-                            keyboardType="default"
-                            style={styles.input}
-                            onChangeText={setInputLastName}
+                            onChangeText={setInputName}
                             autoCompleteType={'name'}
                         />
                     </View>
@@ -73,7 +88,7 @@ export default function SignupPage({logInAndSignUpToggler}) {
                             autoCompleteType={'password'}
                         />
                     </View>
-                    <View style={styles.inputSection}>
+                    {/* <View style={styles.inputSection}>
                         <Text style={styles.label}>re-enter password</Text>
                         <TextInput
                             placeholder="enter you password once more"
@@ -82,9 +97,9 @@ export default function SignupPage({logInAndSignUpToggler}) {
                             onChangeText={setInputRePassword}
                             autoCompleteType={'password'}
                         />
-                    </View>
+                    </View> */}
                 </ScrollView>
-                <TouchableOpacity style={styles.signUpBtnView}>
+                <TouchableOpacity style={styles.signUpBtnView} onPress={()=>handleSignUp()}>
                     <Text style={styles.signUpBtn}>Signup</Text>
                 </TouchableOpacity>
 
@@ -101,7 +116,7 @@ export default function SignupPage({logInAndSignUpToggler}) {
 
 const styles = StyleSheet.create({
     scrollViews : {
-        height  : 400,
+        height  : 200,
         padding : Sizes.lg
     },
     signUpPageContainer : {

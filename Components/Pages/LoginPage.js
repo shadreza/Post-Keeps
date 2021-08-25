@@ -1,5 +1,7 @@
+import firebase from 'firebase';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { auth } from '../../firebase';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
 
@@ -8,25 +10,59 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
     const logoImageURL = 'https://i.ibb.co/TW97Jry/1055661.png'
     const googleImageURL = 'https://i.ibb.co/3WnH6M8/281764.png'
 
-    const [inputUserName, setInputUserName] = useState('');
+    const [inputUserEmail, setInputUserEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
+
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     const handleLogIn = () => {
 
-        if(inputUserName.trim.length <= 0 || inputUserName === null || inputUserName === undefined) {
+        if(inputUserEmail.length <= 0) {
             alert('Please enter you username correctly')
-        } else if(inputPassword.trim.length <= 0 || inputPassword === null || inputPassword === undefined) {
+            return
+        } else if(inputPassword.length <= 0) {
             alert('Please enter you password correctly')
+            return
         }
 
-        // firebase authentication
-
-        // if successful login then go in the main homepage
+        auth.signInWithEmailAndPassword(inputUserEmail, inputPassword)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                userSetter[1](user)
+                alert("Welcome PostKeeper")
+            })
+            .catch((error) => {
+                var errorMessage = error.message;
+                console.log(errorMessage);
+            });
 
     }
 
     const logInUsingGoogle = () => {
+        auth.signInWithRedirect(googleProvider);
+        auth
+            .getRedirectResult()
+            .then((result) => {
+                if (result.credential) {
+                /** @type {firebase.auth.OAuthCredential} */
+                var credential = result.credential;
 
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = credential.accessToken;
+                // ...
+                }
+                // The signed-in user info.
+                var user = result.user;
+            }).catch((error) => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+            });
     }
 
     return (
@@ -42,13 +78,13 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
             <SafeAreaView  style={styles.inputView}>
                 <ScrollView>
                     <View style={styles.inputSection}>
-                        <Text style={styles.label}>user name</Text>
+                        <Text style={styles.label}>email</Text>
                         <TextInput
-                            placeholder="enter your username"
+                            placeholder="enter your email"
                             keyboardType="email-address"
                             style={styles.input}
-                            onChangeText={setInputUserName}
-                            autoCompleteType={'username'}
+                            onChangeText={setInputUserEmail}
+                            autoCompleteType={'email'}
                         />
                     </View>
                     <View style={styles.inputSection}>
@@ -62,7 +98,7 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
                         />
                     </View>
                 </ScrollView>
-                <TouchableOpacity style={styles.logInBtnView}>
+                <TouchableOpacity style={styles.logInBtnView} onPress={() => handleLogIn()}>
                     <Text style={styles.logInBtn} >Login</Text>
                 </TouchableOpacity>
                 <View style={styles.signUpView}>
