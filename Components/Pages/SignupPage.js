@@ -28,8 +28,8 @@ export default function SignupPage({logInAndSignUpToggler}) {
             // Signed in 
                 const user = userCredential.user
                 user.updateProfile({
-                displayName: inputName,
-                photoURL: "https://i.ibb.co/KjtmZdH/shad-pic-removebg-preview.png"
+                    displayName: inputName,
+                    photoURL: "https://i.ibb.co/KjtmZdH/shad-pic-removebg-preview.png"
                 }).then(() => {
                     alert('Successfully signed up. Please log in now!')
                     logInAndSignUpToggler[1]('login')

@@ -2,9 +2,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import HomePage from './Components/Pages/HomePage';
 import LandingPage from './Components/Pages/LandingPage';
 import LoginPage from './Components/Pages/LoginPage';
 import SignupPage from './Components/Pages/SignupPage';
+import { db } from './firebase';
 import {Color} from './Utilities/Colors/Color';
 import {Sizes} from './Utilities/Sizes/Sizes';
 
@@ -14,6 +16,7 @@ export default function App() {
   const [logInOrSignUp, setLogInOrSignUp] = useState('login')
 
   const [user, setUser] = useState(null)
+  const [toggleBetweenHomeAndOther, setToggleBetweenHomeAndOther] = useState('home')
 
   return (
     <View style={styles.container}>
@@ -27,7 +30,9 @@ export default function App() {
               :
               <SignupPage logInAndSignUpToggler={[logInOrSignUp, setLogInOrSignUp]}/>
             :
-            <Text>HomePage</Text>
+            <HomePage user={[user, setUser]}/>
+             
+                      
       }
       
       <StatusBar style="auto" />
