@@ -85,7 +85,7 @@ export default function HomePage({user}) {
     return (
         <View>
 
-            <Text>{user[0].displayName}</Text>
+            <Text style={{fontWeight:'bold'}}>{user[0].displayName}</Text>
 
             {
 
