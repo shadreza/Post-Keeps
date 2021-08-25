@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { db } from '../../firebase';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
+import AddPost from './AddPost';
 import AllPosts from './AllPosts';
 
 export default function HomePage({user}) {
@@ -82,6 +83,10 @@ export default function HomePage({user}) {
         setOnWhichPage('allPosts')
     }
 
+    const goFOrAddingToFireStore = () => {
+        setOnWhichPage('addPost')
+    }
+
     return (
         <View>
 
@@ -94,7 +99,7 @@ export default function HomePage({user}) {
                         <TouchableOpacity onPress={loadDataAndToggleToAllPosts}>
                             <Text>View All Posts</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={updateFireStore}>
+                        <TouchableOpacity onPress={goFOrAddingToFireStore}>
                             <Text>Add A New Posts</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -107,12 +112,12 @@ export default function HomePage({user}) {
                     :
                     onWhichPage === 'allPosts' ? 
                         <View>
-                            <AllPosts data={allPosts} />
+                            <AllPosts data={allPosts} toggler={[onWhichPage, setOnWhichPage]}/>
                         </View>
                         :
                         onWhichPage === 'addPost' ?
                             <View>
-                                <Text>addPost</Text>
+                                <AddPost user={user} toggler={[onWhichPage, setOnWhichPage]}/>
                             </View>
                             : 
                             onWhichPage === 'updatePost' ?

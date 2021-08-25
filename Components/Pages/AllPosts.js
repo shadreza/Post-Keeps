@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
 import Post from './Post';
 
-export default function AllPosts({data}) {
+export default function AllPosts({data, toggler}) {
 
     const [showAllPostsOrNot, setShowAllPostsOrNot] = useState(true)
     const [focusedPost, setFocusedPost] = useState(null)
@@ -20,11 +20,19 @@ export default function AllPosts({data}) {
 
                 showAllPostsOrNot === true ? 
                     <View>
-                        {data.map(post => (
-                            <TouchableOpacity onPress={()=>focusOnAPost(post)}>
-                                <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                        <View>
+                            <TouchableOpacity onPress={() =>toggler[1]('home')}>
+                                <Text>Back</Text>
                             </TouchableOpacity>
-                        ))    }
+                            <Text></Text>
+                        </View>
+                        <ScrollView style={{height:650}}>
+                            {data.map(post => (
+                                <TouchableOpacity onPress={()=>focusOnAPost(post)}>
+                                    <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                                </TouchableOpacity>
+                            ))    }
+                        </ScrollView>
                     </View>
                     :
                     <View>
