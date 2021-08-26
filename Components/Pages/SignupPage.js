@@ -14,15 +14,6 @@ export default function SignupPage({logInAndSignUpToggler}) {
 
     const handleSignUp = () => {
 
-        // if(inputEmail.trim.length <= 0) {
-        //     alert("Input email perfectly")
-        //     return;
-        // } else if(inputPassword.trim.length < 6 ) {
-        //     alert('Password must be at least 6 characters')
-        //     return;
-        // }
-
-
         auth.createUserWithEmailAndPassword(inputEmail, inputPassword)
             .then((userCredential) => {
             // Signed in 
@@ -35,12 +26,11 @@ export default function SignupPage({logInAndSignUpToggler}) {
                     logInAndSignUpToggler[1]('login')
                 }).catch((error) => {
                     const  errorMessage = error.message;
-                    alert(errorMessage)
                 });  
             })
             .catch((error) => {
                 const  errorMessage = error.message;
-                alert(errorMessage)
+                alert('Something went wrong in creating the account. Try later!')
                 logInAndSignUpToggler[1]('login')
             });
 
