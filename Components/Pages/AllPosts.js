@@ -9,6 +9,8 @@ export default function AllPosts({data, toggler}) {
     const [showAllPostsOrNot, setShowAllPostsOrNot] = useState(true)
     const [focusedPost, setFocusedPost] = useState(null)
 
+    console.log(data[0])
+
     const focusOnAPost = (post) => {
         setFocusedPost(post)
         setShowAllPostsOrNot(false)
@@ -18,26 +20,36 @@ export default function AllPosts({data, toggler}) {
         <View>
             {
 
-                showAllPostsOrNot === true ? 
+                data === undefined ? 
                     <View>
-                        <View>
-                            <TouchableOpacity onPress={() =>toggler[1]('home')}>
-                                <Text>Back</Text>
-                            </TouchableOpacity>
-                            <Text></Text>
-                        </View>
-                        <ScrollView style={{height:650}}>
-                            {data.map(post => (
-                                <TouchableOpacity onPress={()=>focusOnAPost(post)}>
-                                    <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
-                                </TouchableOpacity>
-                            ))    }
-                        </ScrollView>
-                    </View>
+                        <Text>No Posts</Text>
+                    </View> 
                     :
-                    <View>
-                        <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
-                    </View>
+                    showAllPostsOrNot === true ? 
+                        <View>
+                            <View>
+                                <TouchableOpacity onPress={() =>toggler[1]('home')}>
+                                    <Text>Back</Text>
+                                </TouchableOpacity>
+                                <Text></Text>
+                            </View>
+                            <ScrollView style={{height:650}}>
+                                {
+                                    data.map(post => (
+                                        <TouchableOpacity onPress={()=>focusOnAPost(post)}>
+                                            <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                                        </TouchableOpacity>
+                                    ))    
+                                }
+                            </ScrollView>
+                        </View>
+                        :
+                        <View>
+                            <Text></Text>
+                            {
+                                data[0] !== undefined && <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                            }
+                        </View>
             }
         </View>
     );

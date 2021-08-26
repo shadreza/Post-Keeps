@@ -8,12 +8,12 @@ import { Sizes } from '../../Utilities/Sizes/Sizes';
 export default function LoginPage({userSetter , logInAndSignUpToggler}) {
 
     const logoImageURL = 'https://i.ibb.co/TW97Jry/1055661.png'
-    const googleImageURL = 'https://i.ibb.co/3WnH6M8/281764.png'
+    // const googleImageURL = 'https://i.ibb.co/3WnH6M8/281764.png'
 
     const [inputUserEmail, setInputUserEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
 
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    // const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     const handleLogIn = () => {
 
@@ -40,32 +40,32 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
 
     }
 
-    const logInUsingGoogle = () => {
-        auth.signInWithRedirect(googleProvider);
-        auth
-            .getRedirectResult()
-            .then((result) => {
-                if (result.credential) {
-                /** @type {firebase.auth.OAuthCredential} */
-                var credential = result.credential;
+    // const logInUsingGoogle = () => {
+    //     auth.signInWithRedirect(googleProvider);
+    //     auth
+    //         .getRedirectResult()
+    //         .then((result) => {
+    //             if (result.credential) {
+    //             /** @type {firebase.auth.OAuthCredential} */
+    //             var credential = result.credential;
 
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                var token = credential.accessToken;
-                // ...
-                }
-                // The signed-in user info.
-                var user = result.user;
-            }).catch((error) => {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
-            });
-    }
+    //             // This gives you a Google Access Token. You can use it to access the Google API.
+    //             var token = credential.accessToken;
+    //             // ...
+    //             }
+    //             // The signed-in user info.
+    //             var user = result.user;
+    //         }).catch((error) => {
+    //             // Handle Errors here.
+    //             var errorCode = error.code;
+    //             var errorMessage = error.message;
+    //             // The email of the user's account used.
+    //             var email = error.email;
+    //             // The firebase.auth.AuthCredential type that was used.
+    //             var credential = error.credential;
+    //             // ...
+    //         });
+    // }
 
     return (
         <SafeAreaView style={styles.loginPageContainer}>
@@ -109,7 +109,7 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
                         <Text style={styles.signUpBtnText}>Click to become a post keeper.</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.otherLogin}>
+                {/* <View style={styles.otherLogin}>
                     <Text>Or Login using</Text>
                     <TouchableOpacity style={styles.signUpBtn} onPress={() => logInUsingGoogle()}>
                         <Image
@@ -117,7 +117,7 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
                             style={styles.googleImage}
                         />
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </SafeAreaView>
         </SafeAreaView>
     );

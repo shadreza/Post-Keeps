@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { db } from '../../firebase';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
+import AccountsPage from './AccountsPage';
 import AddPost from './AddPost';
 import AllPosts from './AllPosts';
 
@@ -11,6 +12,11 @@ export default function HomePage({user}) {
     const collection = 'blogs'
     const docs = 'posts'
     const docRef = db.collection(collection).doc(docs);
+
+    const signOut = () => {
+        user[1](null)
+        alert('Signing Out')
+    }
 
     const generateUniqueKey = () => {
         const d = new Date
@@ -31,7 +37,7 @@ export default function HomePage({user}) {
                 id          : generateUniqueKey(),
                 authorName  : 'Shad Reza',
                 authorEmail : 'shadreza@gmail.com',
-                message     : 'This is the first default message being sent',
+                message     : 'This is a first default message being sent',
                 time        : getTime(),
             }
         ]
@@ -64,7 +70,7 @@ export default function HomePage({user}) {
                 message     : 'This is the second default message being sent',
                 time        : getTime(),
             }
-              const newArray = [...data, newData]
+              const newArray = [newData , ...data]
               t.update(docRef, {allPosts: newArray})
 
             });
@@ -78,34 +84,32 @@ export default function HomePage({user}) {
     const [onWhichPage, setOnWhichPage] = useState('home')
     const [allPosts, setAllPosts] = useState([])
 
-    const loadDataAndToggleToAllPosts = () => {
+    const loadDataAndGoToAnotherPage = (page) => {
         readFromFireStore()
-        setOnWhichPage('allPosts')
-    }
-
-    const goFOrAddingToFireStore = () => {
-        setOnWhichPage('addPost')
+        setOnWhichPage(page)
     }
 
     return (
         <View>
 
-            <Text style={{fontWeight:'bold'}}>{user[0].displayName}</Text>
+            <View>
+                <Text style={{fontWeight:'bold'}}>{user[0].displayName}</Text>
+                <TouchableOpacity onPress={signOut}>
+                    <Text>Sign out</Text>
+                </TouchableOpacity>
+            </View>
 
             {
 
                 onWhichPage === 'home' ? 
                     <View>
-                        <TouchableOpacity onPress={loadDataAndToggleToAllPosts}>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('allPosts')}}>
                             <Text>View All Posts</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={goFOrAddingToFireStore}>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('addPost')}}>
                             <Text>Add A New Posts</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text>Update Your Posts</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('accountSettings')}}>
                             <Text>Account</Text>
                         </TouchableOpacity>
                     </View>
@@ -120,13 +124,16 @@ export default function HomePage({user}) {
                                 <AddPost user={user} toggler={[onWhichPage, setOnWhichPage]}/>
                             </View>
                             : 
-                            onWhichPage === 'updatePost' ?
+                            onWhichPage === 'accountSettings' ?
                                 <View>
-                                    <Text>update</Text>
+                                    <AccountsPage  user={user} toggler={[onWhichPage, setOnWhichPage]} data={allPosts}/>
                                 </View>
-                                : 
+                                :
                                 <View>
-                                    <Text>Acc</Text>
+                                    <Text>We are in post keeps...</Text>
+                                    <TouchableOpacity onPress={()=>setOnWhichPage('home')}>
+                                        <Text>Go to home</Text>
+                                    </TouchableOpacity>
                                 </View>
 
             }

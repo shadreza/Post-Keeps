@@ -25,27 +25,47 @@ export default function AddPost({user, toggler}) {
         return dateTime
     }
 
+    const initializeFireStore = async () => {
+        const data = [
+            {
+                id          : generateUniqueKey(),
+                authorName  : user[0].displayName,
+                authorId    : user[0].uid,
+                authorEmail : user[0].email,
+                message     : message,
+                time        : getTime(),
+            }
+        ]
+        const res = await db.collection(collection).doc(docs).set(data);
+    }
+
     const updateFireStore = async () => {
         try {
             await db.runTransaction(async (t) => {
 
               const doc = await t.get(docRef)
+              if (!doc.exists) {
+                initializeFireStore()
+                return 
+              }
               const data = doc.data().allPosts
               const newData = {
                 id          : generateUniqueKey(),
                 authorName  : user[0].displayName,
+                authorId    : user[0].uid,
                 authorEmail : user[0].email,
                 message     : message,
                 time        : getTime(),
             }
-              const newArray = [...data, newData]
+              const newArray = [newData , ...data]
               t.update(docRef, {allPosts: newArray})
 
             });
             setMessage('')
             alert('Update success!');
           } catch (e) {
-            console.log('Update failure:');
+                console.log('Update failure:')
+                console.log(e)
           }
     }
 
