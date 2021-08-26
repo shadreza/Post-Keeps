@@ -29,13 +29,14 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
             .then((userCredential) => {
                 const user = userCredential.user;
                 userSetter[1](user)
-                console.log(user.providerData)
+                // console.log(user.providerData)
                 alert("Welcome PostKeeper")
                 
             })
             .catch((error) => {
-                var errorMessage = error.message;
-                console.log(errorMessage);
+                // var errorMessage = error.message;
+                // console.log(errorMessage);
+                alert("Wrong Credentials")
             });
 
     }

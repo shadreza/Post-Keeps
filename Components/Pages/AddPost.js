@@ -62,10 +62,11 @@ export default function AddPost({user, toggler}) {
 
             });
             setMessage('')
-            alert('Update success!');
+            alert('Post Successful!');``
           } catch (e) {
-                console.log('Update failure:')
-                console.log(e)
+                // console.log('Update failure:')
+                // console.log(e)
+                alert('Something went wrong while posting please try again.');
           }
     }
 

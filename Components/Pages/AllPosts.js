@@ -9,7 +9,7 @@ export default function AllPosts({data, toggler}) {
     const [showAllPostsOrNot, setShowAllPostsOrNot] = useState(true)
     const [focusedPost, setFocusedPost] = useState(null)
 
-    console.log(data[0])
+    // console.log(data[0])
 
     const focusOnAPost = (post) => {
         setFocusedPost(post)
@@ -37,7 +37,7 @@ export default function AllPosts({data, toggler}) {
                                 {
                                     data.map(post => (
                                         <TouchableOpacity onPress={()=>focusOnAPost(post)}>
-                                            <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                                            <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={null} allPosts={null}/>
                                         </TouchableOpacity>
                                     ))    
                                 }
@@ -47,7 +47,7 @@ export default function AllPosts({data, toggler}) {
                         <View>
                             <Text></Text>
                             {
-                                data[0] !== undefined && <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                                data[0] !== undefined && <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={null} allPosts={null}/>
                             }
                         </View>
             }

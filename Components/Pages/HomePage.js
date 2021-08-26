@@ -52,33 +52,9 @@ export default function HomePage({user}) {
             return allPosts
         } else {
             setAllPosts(doc.data().allPosts)
-            console.log(allPosts);
+            // console.log(allPosts);
             return allPosts
         }
-    }
-
-    const updateFireStore = async () => {
-        try {
-            await db.runTransaction(async (t) => {
-
-              const doc = await t.get(docRef)
-              const data = doc.data().allPosts
-              const newData = {
-                id          : generateUniqueKey(),
-                authorName  : user[0].displayName,
-                authorEmail : user[0].email,
-                message     : 'This is the second default message being sent',
-                time        : getTime(),
-            }
-              const newArray = [newData , ...data]
-              t.update(docRef, {allPosts: newArray})
-
-            });
-          
-            alert('Update success!');
-          } catch (e) {
-            console.log('Update failure:');
-          }
     }
 
     const [onWhichPage, setOnWhichPage] = useState('home')
@@ -126,7 +102,7 @@ export default function HomePage({user}) {
                             : 
                             onWhichPage === 'accountSettings' ?
                                 <View>
-                                    <AccountsPage  user={user} toggler={[onWhichPage, setOnWhichPage]} data={allPosts}/>
+                                    <AccountsPage  user={user} toggler={[onWhichPage, setOnWhichPage]} data={[allPosts, setAllPosts]}/>
                                 </View>
                                 :
                                 <View>

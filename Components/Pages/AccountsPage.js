@@ -10,6 +10,12 @@ export default function AccountsPage({user, data, toggler}) {
     const userMail = user[0].email
     const userId   = user[0].uid
 
+    const author = {
+        name : userName,
+        mail : userMail,
+        id   : userId,
+    }
+
     const [showAllPostsOrNot, setShowAllPostsOrNot] = useState(true)
     const [focusedPost, setFocusedPost] = useState(null)
 
@@ -35,12 +41,16 @@ export default function AccountsPage({user, data, toggler}) {
                             <View>
                                 <ScrollView style={{height:550}}>
                                     {
-                                        data.map(post => (
+                                        data[0].map(post => (
                                             post.authorEmail === userMail &&
                                             post.authorId === userId &&
                                             post.authorName === userName &&
-                                            <TouchableOpacity onPress={()=>focusOnAPost(post)}>
-                                                <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                                            <TouchableOpacity onPress={()=>focusOnAPost(post)} key={post.id}>
+                                                <View>
+                                                    <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={null} allPosts={null} />
+                                                    <Text onPress={()=>focusOnAPost(post)}>Edit</Text>
+                                                </View>
+                                                
                                             </TouchableOpacity>
                                         ))    
                                     }
@@ -49,7 +59,7 @@ export default function AccountsPage({user, data, toggler}) {
                         </View>
                         :
                         <View>
-                            <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]}/>
+                            <Post info={focusedPost} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={author} allPosts={data}/>
                         </View>
                 }
             </View>
