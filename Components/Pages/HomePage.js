@@ -66,12 +66,12 @@ export default function HomePage({user}) {
     }
 
     return (
-        <View>
+        <View style={styles.homePageContainer}>
 
             <View>
-                <Text style={{fontWeight:'bold'}}>{user[0].displayName}</Text>
+                <Text style={styles.userName}>{user[0].displayName}</Text>
                 <TouchableOpacity onPress={signOut}>
-                    <Text>Sign out</Text>
+                    <Text style={styles.signBtn}>Sign out</Text>
                 </TouchableOpacity>
             </View>
 
@@ -80,13 +80,13 @@ export default function HomePage({user}) {
                 onWhichPage === 'home' ? 
                     <View>
                         <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('allPosts')}}>
-                            <Text>View All Posts</Text>
+                            <Text style={styles.btn}>View All Posts</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('addPost')}}>
-                            <Text>Add A New Posts</Text>
+                            <Text style={styles.btn}>Add A New Posts</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('accountSettings')}}>
-                            <Text>Account</Text>
+                            <Text style={styles.btn}>Account</Text>
                         </TouchableOpacity>
                     </View>
                     :
@@ -121,5 +121,35 @@ export default function HomePage({user}) {
 }
 
 const styles = StyleSheet.create({
-    
+    homePageContainer : {
+        justifyContent : 'center',
+        alignItems     : 'center',
+        paddingTop     : 100
+    },
+    userName : {
+        fontWeight    :'bold',
+        padding       : Sizes.md,
+        fontSize      : Sizes.xxxlg,
+        color         : Color.orange,
+        marginLeft    : 'auto',    
+        marginRight   : 'auto',    
+    },
+    btn : {
+       padding          : Sizes.lg,
+       backgroundColor  : Color.green,
+       fontSize         : Sizes.lg,
+       borderRadius     : Sizes.lg, 
+       margin           : Sizes.lg,
+       textAlign        : 'center'
+    },
+    signBtn : {
+       padding          : Sizes.lg,
+       backgroundColor  : Color.redDeep,
+       fontSize         : Sizes.lg,
+       borderRadius     : Sizes.lg, 
+       margin           : Sizes.lg,
+       textAlign        : 'center',
+       color            : Color.white,
+       fontWeight       : 'bold',
+    },
 });

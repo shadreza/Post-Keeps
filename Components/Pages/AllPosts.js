@@ -17,7 +17,7 @@ export default function AllPosts({data, toggler}) {
     }
 
     return (
-        <View>
+        <View style={styles.allPostContainer}>
             {
 
                 data === undefined ? 
@@ -26,22 +26,26 @@ export default function AllPosts({data, toggler}) {
                     </View> 
                     :
                     showAllPostsOrNot === true ? 
-                        <View>
-                            <View>
+                        <View style={{ flex: 1}}>
+                            <View style={{width: 'auto', alignItems: 'center', justifyContent: 'center'}}>
                                 <TouchableOpacity onPress={() =>toggler[1]('home')}>
-                                    <Text>Back</Text>
+                                    <Text style={styles.backBtn}>Back</Text>
                                 </TouchableOpacity>
                                 <Text></Text>
                             </View>
-                            <ScrollView style={{height:650}}>
-                                {
-                                    data.map(post => (
-                                        <TouchableOpacity onPress={()=>focusOnAPost(post)}>
-                                            <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={null} allPosts={null}/>
-                                        </TouchableOpacity>
-                                    ))    
-                                }
-                            </ScrollView>
+                            <SafeAreaView style={{flex: 0.8, marginBottom:0,}}>
+                                <ScrollView>
+                                    <View style={{borderRadius:10,}}>
+                                    {
+                                        data.map(post => (
+                                            <TouchableOpacity onPress={()=>focusOnAPost(post)}>
+                                                <Post info={post} allAndOnePostToggler={[showAllPostsOrNot,setShowAllPostsOrNot]} author={null} allPosts={null}/>
+                                            </TouchableOpacity>
+                                        ))    
+                                    }
+                                    </View>
+                                </ScrollView>
+                            </SafeAreaView>
                         </View>
                         :
                         <View>
@@ -56,5 +60,18 @@ export default function AllPosts({data, toggler}) {
 }
 
 const styles = StyleSheet.create({
-    
+    allPostContainer : {
+        justifyContent : 'center',
+        alignItems : 'center',
+    },
+    backBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.black,
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    }
 });

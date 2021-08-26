@@ -106,7 +106,7 @@ export default function SignupPage({logInAndSignUpToggler}) {
 
 const styles = StyleSheet.create({
     scrollViews : {
-        height  : 200,
+        height  : 260,
         padding : Sizes.lg
     },
     signUpPageContainer : {
@@ -123,14 +123,15 @@ const styles = StyleSheet.create({
         alignItems     : 'center',
     }, 
     tagLineText : {
-        fontSize : Sizes.xxlg,
+        fontSize     : Sizes.xxlg,
         marginBottom : Sizes.xxxlg,
+        textAlign    : 'center',
     },
     inputSection : {
         backgroundColor : Color.yellowLight,
         borderRadius    : Sizes.md,
-        margin          : Sizes.lg,
-        padding         : Sizes.lg,
+        margin          : Sizes.smd,
+        padding         : Sizes.smd,
     },
     input: {
         fontSize     : Sizes.lg,
@@ -140,13 +141,13 @@ const styles = StyleSheet.create({
     },
     signUpBtnView : {
         backgroundColor : Color.green,
-        width           : Sizes.XLG,
+        width           : Sizes.XXLG,
         justifyContent  : 'center',
         alignItems      : 'center',
         borderRadius    : Sizes.md,
         marginLeft      : 'auto',
         marginRight     : 'auto',
-        marginTop       : Sizes.xlg,
+        marginTop       : Sizes.XLG,
     },
     signUpBtn : {
         color      : Color.white,

@@ -59,7 +59,7 @@ export default function AddPost({user, toggler}) {
             }
               const newArray = [newData , ...data]
               t.update(docRef, {allPosts: newArray})
-
+              toggler[1]('home')
             });
             setMessage('')
             alert('Posted Successful!');``
@@ -71,22 +71,63 @@ export default function AddPost({user, toggler}) {
     }
 
     return (
-        <View>
+        <SafeAreaView>
             <TouchableOpacity onPress={()=>toggler[1]('home')}>
-                <Text>Back</Text>
+                {
+                    message.length > 0 ? 
+                        <Text style={styles.backBtn}>Cancel</Text>
+                        :
+                        <Text style={styles.backBtn}>Back</Text>
+                }
+                
             </TouchableOpacity>
-            <Text></Text>
-            <Text>This message is gonna be from {user.displayName}</Text>
-            <SafeAreaView>
-                <TextInput multiline={true} onChangeText={setMessage}/>
+            <SafeAreaView style={styles.addPostView}>
+                <Text style={{fontSize : Sizes.lg, color : Color.white, textAlign : 'center', fontWeight:'bold'}}>{user[0].displayName}'s Message</Text>
+                <View>
+                    <TextInput style={styles.textInput} multiline={true} onChangeText={setMessage}/>
+                </View>
+                <TouchableOpacity onPress={updateFireStore}>
+                    <Text style={styles.postBtn}>Post</Text>
+                </TouchableOpacity>
             </SafeAreaView>
-            <TouchableOpacity onPress={updateFireStore}>
-                <Text>Post</Text>
-            </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    
+    backBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.black,
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft      : 'auto',
+        marginRight     : 'auto',
+    },
+    postBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.green,
+        color           : Color.black,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft      : 'auto',
+        marginRight     : 'auto',
+    },
+    addPostView : {
+        marginTop       : Sizes.lg,
+        padding         : Sizes.lg,
+        backgroundColor : Color.lavender,
+        borderRadius    : Sizes.lg,
+        minWidth        : 300
+    },
+    textInput : {
+        backgroundColor : Color.yellowLight, 
+        fontSize        : Sizes.lg,
+        padding         : Sizes.sm, 
+        borderRadius    : Sizes.md,
+        marginTop       : Sizes.lg,
+        marginBottom    : Sizes.lg,
+    }
 });

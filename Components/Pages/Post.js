@@ -53,44 +53,50 @@ export default function Post({info, allAndOnePostToggler, author, allPosts}) {
             alert('edit successful!')
             allAndOnePostToggler[1](true)
           } catch (e) {
-            // console.log('Update failure:');
             alert('edit unsuccessful!')
           }
     }
 
     return (
-        <View style={{padding:Sizes.lg, backgroundColor: Color.yellowLight, margin:Sizes.md}}>
+        <View style={{margin:Sizes.md}}>
             {   
                 allAndOnePostToggler[0]===false &&
                 <TouchableOpacity onPress={() => allAndOnePostToggler[1](true)}>
-                    <Text>Back</Text>
+                    {
+                        author === null ?
+                            <Text style={styles.backBtn}>Back</Text>
+                            :
+                            <Text style={styles.backBtn}>Discard Edit</Text>
+                    }
                 </TouchableOpacity>
             }
             {
-                <View> 
-                    <Text>Post by {info.authorName}</Text>
+                <View style={styles.postView}> 
+                    <Text style={{textAlign: 'center'}}>Post by {info.authorName}</Text>
                     <Text></Text>
-                    <Text>{info.message}</Text>
+                    <Text style={{textAlign: 'center'}}>{info.message}</Text>
                     <Text></Text>
-                    <Text>Posted on {info.time}</Text>
+                    <Text style={{textAlign: 'center'}}>Posted on {info.time}</Text>
 
                     {
                         author === null ? 
                             <></>
                             :
                             <View>
+                                <Text></Text>
                                 <TouchableOpacity onPress={() => setEditOption(!editOption)}>
                                     {
                                         editOption === true ?
-                                            <Text>Edit</Text>
+                                            <Text style={styles.blueBtn}>Edit</Text>
                                             :
                                             <Text>Cancel Edit</Text>
                                     }
                                 </TouchableOpacity>
+                                <Text></Text>
                                 {
                                     editOption === true &&
                                         <TouchableOpacity onPress={deleteThePost} >
-                                            <Text>Delete</Text>
+                                            <Text style={styles.redBtn}>Delete</Text>
                                         </TouchableOpacity>
                                 }
                                 
@@ -99,14 +105,15 @@ export default function Post({info, allAndOnePostToggler, author, allPosts}) {
                                         <View>
                                             <Text>Change your message bellow...</Text>
                                             <View>
-                                                <TextInput multiline={true} defaultValue={info.message} onChangeText={setEditedMessage} /> 
+                                                <TextInput style={styles.textInput} multiline={true} defaultValue={info.message} onChangeText={setEditedMessage} /> 
                                             </View>
                                             <View>
                                                 <TouchableOpacity onPress={()=> updateEdit()}>
-                                                    <Text>Save Change</Text>
+                                                    <Text style={styles.greenBtn}>Save Change</Text>
                                                 </TouchableOpacity>
+                                                <Text></Text>
                                                 <TouchableOpacity onPress={()=> allAndOnePostToggler[1](true)}>
-                                                    <Text>Discard Change</Text>
+                                                    <Text style={styles.lavenderBtn}>Discard Change</Text>
                                                 </TouchableOpacity>
                                             </View>
                                             
@@ -123,5 +130,69 @@ export default function Post({info, allAndOnePostToggler, author, allPosts}) {
 }
 
 const styles = StyleSheet.create({
-    
+    backBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.black,
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    },
+    redBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.redDeep,
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    },
+    blueBtn : {
+        padding         : Sizes.md,
+        backgroundColor : 'blue',
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    },
+    greenBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.green,
+        color           : Color.white,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    },
+    lavenderBtn : {
+        padding         : Sizes.md,
+        backgroundColor : Color.lavender,
+        color           : Color.black,
+        textAlign       : 'center',
+        fontSize        : Sizes.lg,
+        borderRadius    : Sizes.lg,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+    },
+    postView : {
+        backgroundColor : Color.yellowLight, 
+        borderRadius    : Sizes.md, 
+        padding         : Sizes.lg, 
+        marginTop       : Sizes.lg,
+        minWidth        : 300,
+    },
+    textInput : {
+        backgroundColor : Color.white, 
+        fontSize        : Sizes.lg,
+        padding         : Sizes.sm, 
+        borderRadius    : Sizes.md,
+        marginTop       : Sizes.lg,
+        marginBottom    : Sizes.lg,
+    }
 });

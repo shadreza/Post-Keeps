@@ -110,15 +110,6 @@ export default function LoginPage({userSetter , logInAndSignUpToggler}) {
                         <Text style={styles.signUpBtnText}>Click to become a post keeper.</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <View style={styles.otherLogin}>
-                    <Text>Or Login using</Text>
-                    <TouchableOpacity style={styles.signUpBtn} onPress={() => logInUsingGoogle()}>
-                        <Image
-                            source={{uri: googleImageURL}}
-                            style={styles.googleImage}
-                        />
-                    </TouchableOpacity>
-                </View> */}
             </SafeAreaView>
         </SafeAreaView>
     );
