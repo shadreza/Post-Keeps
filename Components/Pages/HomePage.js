@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { db } from '../../firebase';
 import {Color} from '../../Utilities/Colors/Color';
 import { Sizes } from '../../Utilities/Sizes/Sizes';
+import AccountsPage from './AccountsPage';
+import AddPost from './AddPost';
 import AllPosts from './AllPosts';
 
 export default function HomePage({user}) {
@@ -10,6 +12,11 @@ export default function HomePage({user}) {
     const collection = 'blogs'
     const docs = 'posts'
     const docRef = db.collection(collection).doc(docs);
+
+    const signOut = () => {
+        user[1](null)
+        alert('Signing Out')
+    }
 
     const generateUniqueKey = () => {
         const d = new Date
@@ -30,7 +37,7 @@ export default function HomePage({user}) {
                 id          : generateUniqueKey(),
                 authorName  : 'Shad Reza',
                 authorEmail : 'shadreza@gmail.com',
-                message     : 'This is the first default message being sent',
+                message     : 'This is a first default message being sent',
                 time        : getTime(),
             }
         ]
@@ -45,83 +52,64 @@ export default function HomePage({user}) {
             return allPosts
         } else {
             setAllPosts(doc.data().allPosts)
-            console.log(allPosts);
+            // console.log(allPosts);
             return allPosts
         }
-    }
-
-    const updateFireStore = async () => {
-        try {
-            await db.runTransaction(async (t) => {
-
-              const doc = await t.get(docRef)
-              const data = doc.data().allPosts
-              const newData = {
-                id          : generateUniqueKey(),
-                authorName  : user[0].displayName,
-                authorEmail : user[0].email,
-                message     : 'This is the second default message being sent',
-                time        : getTime(),
-            }
-              const newArray = [...data, newData]
-              t.update(docRef, {allPosts: newArray})
-
-            });
-          
-            alert('Update success!');
-          } catch (e) {
-            console.log('Update failure:');
-          }
     }
 
     const [onWhichPage, setOnWhichPage] = useState('home')
     const [allPosts, setAllPosts] = useState([])
 
-    const loadDataAndToggleToAllPosts = () => {
+    const loadDataAndGoToAnotherPage = (page) => {
         readFromFireStore()
-        setOnWhichPage('allPosts')
+        setOnWhichPage(page)
     }
 
     return (
-        <View>
+        <View style={styles.homePageContainer}>
 
-            <Text>{user[0].displayName}</Text>
+            <View>
+                <Text style={styles.userName}>{user[0].displayName}</Text>
+                <TouchableOpacity onPress={signOut}>
+                    <Text style={styles.signBtn}>Sign out</Text>
+                </TouchableOpacity>
+            </View>
 
             {
 
                 onWhichPage === 'home' ? 
                     <View>
-                        <TouchableOpacity onPress={loadDataAndToggleToAllPosts}>
-                            <Text>View All Posts</Text>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('allPosts')}}>
+                            <Text style={styles.btn}>View All Posts</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={updateFireStore}>
-                            <Text>Add A New Posts</Text>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('addPost')}}>
+                            <Text style={styles.btn}>Add A New Posts</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text>Update Your Posts</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text>Account</Text>
+                        <TouchableOpacity onPress={()=>{loadDataAndGoToAnotherPage('accountSettings')}}>
+                            <Text style={styles.btn}>Account</Text>
                         </TouchableOpacity>
                     </View>
                     :
                     onWhichPage === 'allPosts' ? 
                         <View>
-                            <AllPosts data={allPosts} />
+                            <AllPosts data={allPosts} toggler={[onWhichPage, setOnWhichPage]}/>
                         </View>
                         :
                         onWhichPage === 'addPost' ?
                             <View>
-                                <Text>addPost</Text>
+                                <AddPost user={user} toggler={[onWhichPage, setOnWhichPage]}/>
                             </View>
                             : 
-                            onWhichPage === 'updatePost' ?
+                            onWhichPage === 'accountSettings' ?
                                 <View>
-                                    <Text>update</Text>
+                                    <AccountsPage  user={user} toggler={[onWhichPage, setOnWhichPage]} data={[allPosts, setAllPosts]}/>
                                 </View>
-                                : 
+                                :
                                 <View>
-                                    <Text>Acc</Text>
+                                    <Text>We are in post keeps...</Text>
+                                    <TouchableOpacity onPress={()=>setOnWhichPage('home')}>
+                                        <Text>Go to home</Text>
+                                    </TouchableOpacity>
                                 </View>
 
             }
@@ -133,5 +121,35 @@ export default function HomePage({user}) {
 }
 
 const styles = StyleSheet.create({
-    
+    homePageContainer : {
+        justifyContent : 'center',
+        alignItems     : 'center',
+        paddingTop     : 100
+    },
+    userName : {
+        fontWeight    :'bold',
+        padding       : Sizes.md,
+        fontSize      : Sizes.xxxlg,
+        color         : Color.orange,
+        marginLeft    : 'auto',    
+        marginRight   : 'auto',    
+    },
+    btn : {
+       padding          : Sizes.lg,
+       backgroundColor  : Color.green,
+       fontSize         : Sizes.lg,
+       borderRadius     : Sizes.lg, 
+       margin           : Sizes.lg,
+       textAlign        : 'center'
+    },
+    signBtn : {
+       padding          : Sizes.lg,
+       backgroundColor  : Color.redDeep,
+       fontSize         : Sizes.lg,
+       borderRadius     : Sizes.lg, 
+       margin           : Sizes.lg,
+       textAlign        : 'center',
+       color            : Color.white,
+       fontWeight       : 'bold',
+    },
 });
